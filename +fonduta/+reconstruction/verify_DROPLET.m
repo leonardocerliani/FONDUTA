@@ -65,7 +65,8 @@ function verify_DROPLET(savepath)
     fig = figure('Name', 'TTL Channels and fUSI Events', 'Color', 'w');
     varyingCols   = find(std(TTLinfo) > 0);
     numTTL        = numel(varyingCols);
-    totalGridRows = numTTL * 2;
+    bottomRows = 3;
+    totalGridRows = numTTL + bottomRows;
     
     t   = tiledlayout(totalGridRows, 1, 'TileSpacing', 'compact', 'Padding', 'compact');
     ax  = gobjects(numTTL + 1, 1);
@@ -84,7 +85,7 @@ function verify_DROPLET(savepath)
     % -------------------------------------------------------------------------
     % BOTTOM SUBPLOT: fUSI Signal & Behavioral Events
     % -------------------------------------------------------------------------
-    ax(end) = nexttile(t, numTTL + 1, [numTTL, 1]);
+    ax(end) = nexttile(t, numTTL + 1, [bottomRows, 1]);
     hold(ax(end), 'on');
 
     % Shock Background Regions
@@ -176,6 +177,7 @@ function verify_DROPLET(savepath)
     for i = 1:numel(ax)
         ax(i).XTick = ticks5s;
         ax(i).XTickLabel = tickLabels;
+        % if i < numel(ax), ax(i).XTickLabel = []; end
         ax(i).XMinorTick = 'on';
         ax(i).XAxis.MinorTickValues = 0:1:ceil(maxX);
         

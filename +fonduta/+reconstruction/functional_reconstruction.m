@@ -45,7 +45,7 @@ function PDI = functional_reconstruction(datapath, savepath)
 
     % Enforce required datapath argument
     if nargin < 1 || isempty(datapath)
-        error('datapath was not provided. Execution terminated.');
+        datapath = uigetdir(pwd, 'Select the directory containing the raw fUSI data');
     end
 
     % Derive savepath if not provided or left empty
