@@ -2,6 +2,7 @@ function view_registration(atlas, image)
 %VIEW_REGISTRATION Interactive atlas registration viewer (coronal only).
 %
 %   fonduta.viz.view_registration(atlas, image)
+%   fonduta.viz.view_registration(atlas) % Prompts uigetdir to load & transform anatomic image
 %
 %   Displays:
 %       Left  : atlas
@@ -11,6 +12,34 @@ function view_registration(atlas, image)
 %       Mouse click  : move crosshairs
 %       Mouse wheel  : change coronal slice
 %       Radio buttons: select atlas, lines, colormap, or clarity boost
+
+%% Load / Transform Image if Not Provided
+
+if nargin < 2 || isempty(image)
+    % Prompt user to select anatomic.mat directly so files are visible
+    [fileName, anat_path] = uigetfile('anatomic.mat', ...
+        'Select anatomic.mat (must be in folder with transformation.mat)');
+    
+    if isequal(fileName, 0) || isequal(anat_path, 0)
+        disp('User canceled file selection.');
+        return;
+    end
+    
+    fileAnat = fullfile(anat_path, 'anatomic.mat');
+    fileTrans = fullfile(anat_path, 'transformation.mat');
+    
+    if ~exist(fileTrans, 'file')
+        error('Selected directory does not contain "transformation.mat".');
+    end
+    
+    % Load anatomic data and transformation matrix
+    anatomic = load(fileAnat).anatomic;
+    transformation = load(fileTrans).Transf;
+    
+    % Transform individual image to atlas space
+    image = fonduta.atlas.individual2atlas(anatomic, atlas, transformation);
+end
+
 
 %% Initial settings
 

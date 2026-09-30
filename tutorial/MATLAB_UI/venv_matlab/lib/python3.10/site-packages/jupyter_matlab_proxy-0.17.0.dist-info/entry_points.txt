@@ -1,0 +1,8 @@
+[console_scripts]
+install-matlab-kernelspec = jupyter_matlab_kernel.kernelspec:main
+
+[jupyter_serverproxy_servers]
+matlab = jupyter_matlab_proxy:setup_matlab
+
+[matlab_proxy_configs]
+Jupyter = jupyter_matlab_proxy.jupyter_config:config

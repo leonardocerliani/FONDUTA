@@ -1,0 +1,7 @@
+[console_scripts]
+matlab-proxy-app = matlab_proxy.app:main
+matlab-proxy-app-list-servers = matlab_proxy.util.list_servers:print_server_info
+matlab-proxy-manager-app = matlab_proxy_manager.web.app:main
+
+[matlab_proxy_configs]
+default_configuration_matlab_proxy = matlab_proxy.default_configuration:config
